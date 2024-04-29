@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movierating-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: movierating-frontend
+  template:
+    metadata:
+      labels:
+        app: movierating-frontend
+    spec:
+      containers:
+        - name: movierating-frontend
+          image: arnishox/movieratingfinal-frontend:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movierating-frontend
+spec:
+  selector:
+    app: movierating-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 80
+  type: LoadBalancer
